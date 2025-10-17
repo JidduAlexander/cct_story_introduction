@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Where We Stand on Climate Change</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: GeistSans,system-ui,-apple-system,Segoe UI,Roboto,Helvetica Neue,Noto Sans,Liberation Sans,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+            line-height: 1.6;
+            color: #1f2937;
+            background-color: rgb(245, 245, 245);
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            background: rgb(245, 245, 245);
+            padding: 1.25rem 2rem;
+            z-index: 100;
+        }
+
+        .logo {
+            height: 60px;
+        }
+
+        /* Main Layout */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .two-column-layout {
+            padding-top: 2rem;
+        }
+
+        /* Row structure */
+        .row {
+            display: flex;
+            gap: 0;
+            margin-bottom: 0;
+        }
+
+        /* Columns */
+        .col-left-title {
+            width: 55%;
+            max-width: 650px;
+            padding: 30px;
+            padding-bottom: 0px;
+            padding-right: 60px;
+        }
+        .col-left {
+            width: 55%;
+            max-width: 650px;
+            padding: 30px;
+            padding-top: 5px;
+            padding-right: 60px;
+        }
+
+        .col-right {
+            width: 45%;
+            padding: 10px;
+            padding-left: 20px;
+        }
+
+        .chart-placeholder {
+            background: #f9fafb;
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        /* Hide mobile-inline charts and temp-explorer on desktop */
+        .chart-placeholder.mobile-inline,
+        .temp-explorer.mobile-inline {
+            display: none;
+        }
+
+        .chart-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-top: 1rem;
+        }
+
+
+        /* Typography */
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: #111827;
+        }
+
+        h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-top: 3rem;
+            margin-bottom: 1.25rem;
+            color: #111827;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+
+        p {
+            margin-bottom: 1.25rem;
+            color: #374151;
+        }
+
+        /* Special text styling */
+        .stat-large {
+            font-size: 2em;
+            font-weight: 700;
+            color: #E85D1D;
+        }
+
+        .temp-value {
+            font-weight: 700;
+            color: #EF4444;
+        }
+
+        .temp-value.amber {
+            color: #F59E0B;
+        }
+
+        .temp-value.red {
+            color: #EF4444;
+        }
+
+        .temp-value.dark-red {
+            color: #DC2626;
+        }
+
+        .temp-unit {
+            font-size: 0.85em;
+        }
+
+        .highlight {
+            color: #DC2626;
+            font-weight: 600;
+        }
+
+        /* Expandable blocks */
+        .expandable-block {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .expand-toggle {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            background: none;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #4b5563;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .expand-toggle:hover {
+            background: #f3f4f6;
+        }
+
+        .expand-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .expand-content-inner {
+            padding: 0 1.25rem 1.25rem;
+            color: #4b5563;
+            font-size: 0.95rem;
+        }
+
+        .expandable-block.expanded .expand-content {
+            max-height: 2000px;
+        }
+
+        .expand-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .expandable-block.expanded .expand-icon {
+            transform: rotate(45deg);
+        }
+
+        /* Interactive Temperature Explorer */
+        .temp-explorer {
+            background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+        }
+
+        .temp-explorer h2 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .temp-explorer-subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+
+        /* Hide radio buttons */
+        .temp-explorer input[type="radio"],
+        input[name="impact-category"] {
+            display: none;
+        }
+
+        .temp-tabs {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 0;
+        }
+
+        .temp-tab {
+            padding: 0.5rem 0.75rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #6b7280;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            margin-bottom: -2px;
+        }
+
+        .temp-tab:hover {
+            color: #E85D1D;
+        }
+
+        /* Active state for tabs */
+        #temp-1-5:checked ~ .temp-tabs label[for="temp-1-5"],
+        #temp-1-7:checked ~ .temp-tabs label[for="temp-1-7"],
+        #temp-2-0:checked ~ .temp-tabs label[for="temp-2-0"],
+        #temp-2-5:checked ~ .temp-tabs label[for="temp-2-5"],
+        #temp-3-0:checked ~ .temp-tabs label[for="temp-3-0"],
+        #temp-1-5-mobile:checked ~ .temp-tabs label[for="temp-1-5-mobile"],
+        #temp-1-7-mobile:checked ~ .temp-tabs label[for="temp-1-7-mobile"],
+        #temp-2-0-mobile:checked ~ .temp-tabs label[for="temp-2-0-mobile"],
+        #temp-2-5-mobile:checked ~ .temp-tabs label[for="temp-2-5-mobile"],
+        #temp-3-0-mobile:checked ~ .temp-tabs label[for="temp-3-0-mobile"],
+        #cat-heat:checked ~ .temp-tabs label[for="cat-heat"],
+        #cat-food:checked ~ .temp-tabs label[for="cat-food"],
+        #cat-water:checked ~ .temp-tabs label[for="cat-water"],
+        #cat-coral:checked ~ .temp-tabs label[for="cat-coral"],
+        #cat-species:checked ~ .temp-tabs label[for="cat-species"],
+        #cat-ice:checked ~ .temp-tabs label[for="cat-ice"],
+        #cat-sealevel:checked ~ .temp-tabs label[for="cat-sealevel"],
+        #cat-weather:checked ~ .temp-tabs label[for="cat-weather"],
+        #cat-economy:checked ~ .temp-tabs label[for="cat-economy"],
+        #cat-society:checked ~ .temp-tabs label[for="cat-society"] {
+            color: #E85D1D;
+            border-bottom-color: #E85D1D;
+        }
+
+        /* Hide all content by default */
+        .temp-content {
+            display: none;
+        }
+
+        /* Show content based on checked radio button */
+        #temp-1-5:checked ~ #content-1-5,
+        #temp-1-7:checked ~ #content-1-7,
+        #temp-2-0:checked ~ #content-2-0,
+        #temp-2-5:checked ~ #content-2-5,
+        #temp-3-0:checked ~ #content-3-0,
+        #temp-1-5-mobile:checked ~ #content-1-5-mobile,
+        #temp-1-7-mobile:checked ~ #content-1-7-mobile,
+        #temp-2-0-mobile:checked ~ #content-2-0-mobile,
+        #temp-2-5-mobile:checked ~ #content-2-5-mobile,
+        #temp-3-0-mobile:checked ~ #content-3-0-mobile,
+        #cat-heat:checked ~ #content-heat,
+        #cat-food:checked ~ #content-food,
+        #cat-water:checked ~ #content-water,
+        #cat-coral:checked ~ #content-coral,
+        #cat-species:checked ~ #content-species,
+        #cat-ice:checked ~ #content-ice,
+        #cat-sealevel:checked ~ #content-sealevel,
+        #cat-weather:checked ~ #content-weather,
+        #cat-economy:checked ~ #content-economy,
+        #cat-society:checked ~ #content-society {
+            display: block;
+        }
+
+        .temp-content {
+            margin-top: 2rem;
+        }
+
+        .impact-category {
+            margin-bottom: 2rem;
+        }
+
+        .impact-category-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .impact-item {
+            margin-bottom: 1.25rem;
+        }
+
+        .impact-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .impact-icon {
+            font-size: 1.25rem;
+        }
+
+        .impact-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .impact-stat {
+            font-weight: 700;
+            color: #E85D1D;
+            display: inline;
+        }
+
+        .impact-description {
+            color: #4b5563;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Impact progression styles */
+        .impact-progression {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .temp-level {
+            display: grid;
+            grid-template-columns: 70px 1fr;
+            gap: 1rem;
+            padding: 0.25rem 0;
+            line-height: 1.4;
+        }
+
+        .temp-header {
+            font-weight: 700;
+            color: #E85D1D;
+            white-space: nowrap;
+        }
+
+        .temp-level .impact-description {
+            color: #4b5563;
+        }
+
+        /* Footer */
+        footer {
+            background: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 1200px) {
+            .row {
+                flex-direction: column-reverse;
+            }
+
+            .col-left,
+            .col-right {
+                width: 100%;
+                max-width: 100%;
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .temp-explorer {
+                padding: 1.5rem;
+            }
+
+            .temp-tabs {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="logo2.png" alt="Climate Change Tracker" class="logo">
+    </header>
+
+    <div class="container">
+        <div class="two-column-layout">
+            <!-- Row 1: Intro (no chart) -->
+            <div class="row">
+                <div class="col-left">
+                    <!-- Intro Section -->
+                    <div class="section section-intro">
+                        <h1>A modern introduction <br>to climate change</h1>
+
+                        <p>Global warming is causing our climate to change. While it might feel like climate change is just beginning, we've already warmed 1.36°C—dangerously close to the 1.5°C threshold that scientists warn could trigger irreversible changes. The window to limit warming is rapidly closing.</p>
+
+                        <p>This introduction will show you
+                        <ul>
+                            <li>Where we are now: 1.36°C of warming and accelerating at 0.27°C per decade</li>
+                            <li>What's at stake: How impacts escalate dramatically between 1.5°C, 2°C, and beyond</li>
+                            <li>Our remaining carbon budget: How much CO₂ we can still emit (spoiler: very little)</li>
+                            <li>Pathways forward: What emission reductions different warming targets actually require</li>
+                            <li>Who needs to act: How responsibilities and capabilities differ across nations</li>
+                        </ul>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-right">
+                    <!-- empty -->
+                </div>
+            </div>
+
+            <!-- Row 2 + 3: Warming + Chart1 -->
+            <div class="row">
+                <div class="col-left-title">
+                    <!-- Current State of Warming Section -->
+                    <div class="section section-warming">
+                        <h2>Current state of warming</h2>
+                    </div>
+                </div>
+                <div class="col-right"></div>
+            </div>
+            <div class="row">
+                <div class="col-left">
+                    <!-- Current State of Warming Section -->
+                    <div class="section section-warming">
+                        <p>Global warming refers to the change in Earth's average surface temperature compared to pre-industrial times (roughly 1850-1900, before large-scale fossil fuel use).</p>
+
+                        <p>Nations agreed together in 2015 in the Paris agreement that this warming should stay well below 2°C, with efforts to limit it to 1.5°C.</p>
+
+                        <p>Not only the Earth surface is warming, the complete globe (oceans, land, atmosphere) is warming due to an energy imbalance. You can read more about that in the box.</p>
+
+                        <div class="expandable-block">
+                            <button class="expand-toggle">
+                                Energy imbalance
+                                <span class="expand-icon">+</span>
+                            </button>
+                            <div class="expand-content">
+                                <div class="expand-content-inner">
+                                    <p>The Earth is warming up because there is an energy imbalance with space. More energy is entering our globe from space than that the Earth is radiating back out. This extra energy results in a warmer Earth.</p>
+                                    <img src="ei.png" style="width: 100%; border-radius: 8px;" alt="energy imbalance">
+                                </div>
+                            </div>
+                        </div>
+
+                        <p>There are multiple ways to represent the warming of the Earth surface, the most common is <strong>observed warming</strong>, the preferred one is called <strong>human-induced warming</strong>, both are shown in the chart. Currently the most recent value for human induced warming is <span class="temp-value amber"><cct#/>1.36</span><span class="temp-unit">°C</span> for the year <strong>2024</strong>. The difference between observed and human-induced warming is another complex topic that you can read more about in the following box.</p>
+
+                        <div class="expandable-block">
+                            <button class="expand-toggle">
+                                Observed versus human-induced warming
+                                <span class="expand-icon">+</span>
+                            </button>
+                            <div class="expand-content">
+                                <div class="expand-content-inner">
+                                    <p>Observed warming are measured from temperature stations, satellites, and ocean buoys worldwide. This observed warming bounces around from year to year. El Niño events temporarily spike temperatures. Volcanic eruptions briefly cool things down. Ocean circulation patterns shift heat between the atmosphere and deep ocean. These natural fluctuations create noise in the signal, making it harder to see the underlying trend driven by human activities.</p>
+
+                                    <p>To cut through this noise, scientists track human-induced warming—a metric that filters out natural fluctuations to show the underlying warming trend that human activities are causing. Think of it as the signal beneath the noise, the steady upward march that continues regardless of whether a particular year is affected by El Niño or La Niña.</p>
+
+                                    <p>This steady rate allows us not to panic or relax due to yearly peaks or dips. Climate change is long term issue that shouldn't be viewed differently from year to year. The steady pace also gives us easier predictive power to see where we are heading. This makes the human-induced warming a preferred metric in this case, however observed warming is still an important metric highlighting the actual state.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p>Human-induced warming is increasing at approximately <span class="temp-value amber"><cct#/>0.27</span><span class="temp-unit">°C</span> per decade. If we continue on our current trajectory we'll reach <span class="temp-value amber">1.5</span><span class="temp-unit">°C</span> of human-induced warming around 2030<cct#/>, and hit <span class="temp-value red">2.0</span><span class="temp-unit">°C</span> by 2048<cct#/>. </p>
+                    </div>
+                </div>
+                <div class="col-right">
+                    <img src="warming.png" style="width: 100%; border-radius: 8px;" alt="Warming">
+                </div>
+                <!-- <div class="col-right">
+                    <div class="chart-item chart-placeholder" id="chart1">
+                        <div>
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">📈</div>
+                            <div style="font-weight: 600; color: #374151;">Temperature Trajectory Chart</div>
+                            <div class="chart-label"><cct embed chart/></div>
+                            <div class="chart-label">Observed vs human-induced warming with projections</div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+
+            <!-- Row 4+5: Impacts + Temp Explorer -->
+            <div class="row">
+                <div class="col-left-title">
+                    <!-- Current State of Warming Section -->
+                    <div class="section section-impacts">
+                        <h2>Impacts of a warming world</h2>
+                    </div>
+                </div>
+                <div class="col-right"></div>
+            </div>
+            <div class="row">
+                <div class="col-left">
+                    <!-- Impacts Section -->
+                    <div class="section section-impacts">
+                        <p>At warmer temperatures the impacts gets significantly worse.</p>
+
+                        <p>For example, at <strong>1.5°C</strong>, coral reefs face 70-90% decline and 280 million more people experience extreme heat annually. At <strong>1.7°C</strong> we see near-complete loss of reefs and 420 million exposed to dangerous heat. Cross <strong>2°C</strong> and coral reefs functionally go extinct, 700 million face deadly heat conditions, and failures in major farming regions. By <strong>3°C</strong>, we're looking at regions becoming uninhabitable, widespread food system collapse, and threats to civilizational stability.</p>
+
+                        <p>These aren't distant possibilities—they're the physical consequences of temperature thresholds we're approaching this century. Use the interactive explorer on the right to see the detailed impacts at each level.</p>
+
+                        <p>So you know the impacts at different temperature levels, and you know how close we are already to 1.5°C and 1.7°C. Now let's understand how we can change our trajectory.</p>
+                    </div>
+                </div>
+                <div class="col-right">
+                    <div style="background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%); border: 2px solid #e5e7eb; border-radius: 12px; padding: 1.5rem;">
+                        <!-- Radio buttons for tab selection -->
+                        <input type="radio" name="impact-category" id="cat-heat" checked>
+                    <input type="radio" name="impact-category" id="cat-food">
+                    <input type="radio" name="impact-category" id="cat-water">
+                    <input type="radio" name="impact-category" id="cat-coral">
+                    <input type="radio" name="impact-category" id="cat-species">
+                    <input type="radio" name="impact-category" id="cat-ice">
+                    <input type="radio" name="impact-category" id="cat-sealevel">
+                    <input type="radio" name="impact-category" id="cat-weather">
+                    <input type="radio" name="impact-category" id="cat-economy">
+                    <input type="radio" name="impact-category" id="cat-society">
+
+                    <!-- Category tabs -->
+                    <div class="temp-tabs">
+                        <label for="cat-heat" class="temp-tab">🌡️ Heat</label>
+                        <label for="cat-food" class="temp-tab">🌾 Food</label>
+                        <label for="cat-water" class="temp-tab">💧 Water</label>
+                        <label for="cat-coral" class="temp-tab">🪸 Coral</label>
+                        <label for="cat-species" class="temp-tab">🐾 Species</label>
+                        <label for="cat-ice" class="temp-tab">❄️ Ice</label>
+                        <label for="cat-sealevel" class="temp-tab">🌊 Sea Level</label>
+                        <label for="cat-weather" class="temp-tab">🌀 Weather</label>
+                        <label for="cat-economy" class="temp-tab">💰 Economy</label>
+                        <label for="cat-society" class="temp-tab">🏘️ Society</label>
+                    </div>
+
+                    <!-- Heat Content -->
+                    <div class="temp-content" id="content-heat">
+                        <div class="impact-progression">
+                            <div class="temp-level">
+                                <div class="temp-header">+1.5°C</div>
+                                <div class="impact-description"><span class="impact-stat">~280 million additional people</span> exposed to extreme heat waves annually (vs pre-industrial)</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+1.7°C</div>
+                                <div class="impact-description"><span class="impact-stat">~420 million additional people</span> exposed to extreme heat waves annually</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+2.0°C</div>
+                                <div class="impact-description"><span class="impact-stat">~700 million additional people</span> exposed annually; deadly heat becomes common</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+2.5°C</div>
+                                <div class="impact-description"><span class="impact-stat">Over 1 billion people</span> exposed to dangerous heat conditions annually</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+3.0°C</div>
+                                <div class="impact-description"><span class="impact-stat">Multiple regions become uninhabitable</span> without advanced climate control</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Food Content -->
+                    <div class="temp-content" id="content-food">
+                        <div class="impact-progression">
+                            <div class="temp-level">
+                                <div class="temp-header">+1.5°C</div>
+                                <div class="impact-description"><span class="impact-stat">7% decline in average global crop yields</span> affecting staple crops worldwide</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+1.7°C</div>
+                                <div class="impact-description"><span class="impact-stat">10% decline in average global crop yields</span> increased risk of simultaneous breadbasket failures</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+2.0°C</div>
+                                <div class="impact-description"><span class="impact-stat">15% decline in global crop yields</span> multiple breadbasket failures become probable</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+2.5°C</div>
+                                <div class="impact-description"><span class="impact-stat">20%+ decline in global crop yields</span> major disruptions to global food systems</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+3.0°C</div>
+                                <div class="impact-description"><span class="impact-stat">Major breadbasket failures simultaneous and sustained</span> global food security crisis</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Water Content -->
+                    <div class="temp-content" id="content-water">
+                        <div class="impact-progression">
+                            <div class="temp-level">
+                                <div class="temp-header">+1.5°C</div>
+                                <div class="impact-description"><span class="impact-stat">350 million additional people</span> living in water-scarce regions</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+1.7°C</div>
+                                <div class="impact-description"><span class="impact-stat">410 million additional people</span> living in water-scarce regions</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+2.0°C</div>
+                                <div class="impact-description"><span class="impact-stat">500 million additional people</span> in water-scarce regions; major river flow reductions</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+2.5°C</div>
+                                <div class="impact-description"><span class="impact-stat">Severe water scarcity affecting billions</span> major river systems face critical failures</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+3.0°C</div>
+                                <div class="impact-description"><span class="impact-stat">Widespread water scarcity crises</span> affecting billions globally</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Coral Content -->
+                    <div class="temp-content" id="content-coral">
+                        <div class="impact-progression">
+                            <div class="temp-level">
+                                <div class="temp-header">+1.5°C</div>
+                                <div class="impact-description"><span class="impact-stat">70-90% decline in coral reefs globally</span> approaching functional collapse</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+1.7°C</div>
+                                <div class="impact-description"><span class="impact-stat">95-98% decline in coral reefs globally</span> near-complete loss of functional reef systems</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+2.0°C</div>
+                                <div class="impact-description"><span class="impact-stat">>99% loss</span> functional extinction of coral reef ecosystems</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+2.5°C</div>
+                                <div class="impact-description"><span class="impact-stat">Complete functional extinction</span> coral reef ecosystems no longer viable</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+3.0°C</div>
+                                <div class="impact-description"><span class="impact-stat">Complete functional extinction</span> coral reef ecosystems no longer viable</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Species Content -->
+                    <div class="temp-content" id="content-species">
+                        <div class="impact-progression">
+                            <div class="temp-level">
+                                <div class="temp-header">+1.5°C</div>
+                                <div class="impact-description"><span class="impact-stat">4% of vertebrate species</span> face local extinction in their current ranges</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+1.7°C</div>
+                                <div class="impact-description"><span class="impact-stat">8% of vertebrate species</span> face local extinction; accelerated habitat shifts</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+2.0°C</div>
+                                <div class="impact-description"><span class="impact-stat">16% of vertebrate species</span> face local extinction; major ecosystem restructuring</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+2.5°C</div>
+                                <div class="impact-description"><span class="impact-stat">30%+ of species face extinction</span> ecosystem collapse in many regions</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+3.0°C</div>
+                                <div class="impact-description"><span class="impact-stat">40-50%+ of species face extinction</span> sixth mass extinction event</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ice Content -->
+                    <div class="temp-content" id="content-ice">
+                        <div class="impact-progression">
+                            <div class="temp-level">
+                                <div class="temp-header">+1.5°C</div>
+                                <div class="impact-description"><span class="impact-stat">Ice-free Arctic summer once per century</span> beginning of Arctic regime shift</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+1.7°C</div>
+                                <div class="impact-description"><span class="impact-stat">Ice-free Arctic summer once per 20-30 years</span> represents a regime shift</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+2.0°C</div>
+                                <div class="impact-description"><span class="impact-stat">Ice-free Arctic summer once per decade</span> new Arctic regime with permanent consequences</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+2.5°C</div>
+                                <div class="impact-description"><span class="impact-stat">Greenland ice sheet collapse likely committed</span> multi-meter sea level rise over centuries</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+3.0°C</div>
+                                <div class="impact-description"><span class="impact-stat">Both Greenland and West Antarctic collapse likely</span> committing to 10+ meters sea level rise</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sea Level Content -->
+                    <div class="temp-content" id="content-sealevel">
+                        <div class="impact-progression">
+                            <div class="temp-level">
+                                <div class="temp-header">+1.5°C</div>
+                                <div class="impact-description"><span class="impact-stat">~0.4m additional rise by 2100</span> total ~0.7-0.8m above 2000 levels</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+1.7°C</div>
+                                <div class="impact-description"><span class="impact-stat">~0.45-0.5m additional rise by 2100</span> affecting 10 million more people than at 1.5°C</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+2.0°C</div>
+                                <div class="impact-description"><span class="impact-stat">~0.5-0.6m additional by 2100</span> acceleration continues beyond 2100 due to ice sheet instability</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+2.5°C</div>
+                                <div class="impact-description"><span class="impact-stat">0.7-0.9m by 2100, then accelerating</span> major coastal cities face inundation</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+3.0°C</div>
+                                <div class="impact-description"><span class="impact-stat">1+ meter by 2100, accelerating rapidly</span> major coastal cities inundated</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Weather Content -->
+                    <div class="temp-content" id="content-weather">
+                        <div class="impact-progression">
+                            <div class="temp-level">
+                                <div class="temp-header">+1.5°C</div>
+                                <div class="impact-description"><span class="impact-stat">40% increase in frequency</span> of extreme precipitation events</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+1.7°C</div>
+                                <div class="impact-description"><span class="impact-stat">50% increase in extreme precipitation</span> increased drought intensity in many regions</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+2.0°C</div>
+                                <div class="impact-description"><span class="impact-stat">70% increase in extreme precipitation</span> extended droughts in many regions; compound disasters</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+2.5°C</div>
+                                <div class="impact-description"><span class="impact-stat">Doubled frequency of extreme precipitation</span> compound disasters become common</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+3.0°C</div>
+                                <div class="impact-description"><span class="impact-stat">Multiple simultaneous catastrophes common</span> recovery becomes impossible</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Economy Content -->
+                    <div class="temp-content" id="content-economy">
+                        <div class="impact-progression">
+                            <div class="temp-level">
+                                <div class="temp-header">+1.5°C</div>
+                                <div class="impact-description"><span class="impact-stat">Estimated 1-2% of global GDP</span> in annual damages</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+1.7°C</div>
+                                <div class="impact-description"><span class="impact-stat">Estimated 2-3% of global GDP</span> annually in climate-related damages</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+2.0°C</div>
+                                <div class="impact-description"><span class="impact-stat">3-5% of global GDP annually</span> disproportionately affects developing nations</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+2.5°C</div>
+                                <div class="impact-description"><span class="impact-stat">5-8%+ of global GDP in damages</span> threatens economic stability in many regions</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+3.0°C</div>
+                                <div class="impact-description"><span class="impact-stat">10%+ of global GDP in annual damages</span> fundamental economic breakdown</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Society Content -->
+                    <div class="temp-content" id="content-society">
+                        <div class="impact-progression">
+                            <div class="temp-level">
+                                <div class="temp-header">+1.5°C</div>
+                                <div class="impact-description"><span class="impact-stat">Increased climate-driven migration</span> from coastal and agricultural regions</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+1.7°C</div>
+                                <div class="impact-description"><span class="impact-stat">Significant increase in climate migration</span> coastal megacities face major challenges</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+2.0°C</div>
+                                <div class="impact-description"><span class="impact-stat">Large-scale climate migration</span> multiple coastal cities face existential threats</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+2.5°C</div>
+                                <div class="impact-description"><span class="impact-stat">Widespread displacement and conflict risk</span> governance systems face breakdown in vulnerable regions</div>
+                            </div>
+                            <div class="temp-level">
+                                <div class="temp-header">+3.0°C</div>
+                                <div class="impact-description"><span class="impact-stat">Breakdown of social and political systems</span> widespread state failure and conflict</div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 4: Influence/Emissions + Chart3 -->
+            <div class="row">
+                <div class="col-left-title">
+                    <div class="section section-influence">
+                        <h2>Greenhouse gas emissions</h2>
+                    </div>
+                </div>
+                <div class="col-right"></div>
+            </div>
+            <div class="row">
+                <div class="col-left">
+                    <div class="section section-influence">
+
+                        <p>There are many factors influencing the warming of our planet, greenhouse gas emissions like CO₂, methane, nitrous oxide and F-gases, aerosols, ozone, albedo changes with snow, ice and deforestation, and many more. See the box for a more indepth introduction.</p>
+
+                        <div class="expandable-block">
+                            <button class="expand-toggle">
+                                Warming factors of our climate.
+                                <span class="expand-icon">+</span>
+                            </button>
+                            <div class="expand-content">
+                                <div class="expand-content-inner">
+                                    <p>...</p>
+                                    <img src="erf.png" width="100%"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p>CO₂ emissions from human activity are the largest contributor of global warming. What makes CO₂ even more significant: warming has been nearly perfectly linear with cumulative CO₂ emissions. This means that scientist can calculate with reasonable precision how much more CO₂ we can emit before reaching any temperature threshold. This is what we call <strong>remaining carbon budgets</strong>.</p>
+                    </div>
+                </div>
+                <div class="col-right">
+                    <img src="co2.png" style="width: 100%; border-radius: 8px;" alt="co2">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-left">
+                    <div class="section section-influence">
+                        <ul style="margin: 1.5rem 0; padding-left: 2rem;">
+                            <li style="margin-bottom: 0.75rem;">Emitting another <strong>130<cct#/></strong> Gt from now brings us to <span class="temp-value amber">1.5</span><span class="temp-unit">°C</span></li>
+                            <li style="margin-bottom: 0.75rem;"><strong>490<cct#/></strong> Gt emissions and we reach <span class="temp-value red">1.7</span><span class="temp-unit">°C</span></li>
+                            <li style="margin-bottom: 0.75rem;"><strong>1050<cct#/></strong> Gt total for <span class="temp-value red">2.0</span><span class="temp-unit">°C</span></li>
+                        </ul>
+
+                        <p>Carbon budgets come at different likelihoods, the above values are at 50% likelihood. If you'd like to understand this and other details about the carbon budget you can go into the indepth box.</p>
+
+                        <div class="expandable-block">
+                            <button class="expand-toggle">
+                                Remaining carbon budgets
+                                <span class="expand-icon">+</span>
+                            </button>
+                            <div class="expand-content">
+                                <div class="expand-content-inner">
+                                    <p><strong>Likelihoods: </strong>The Remaining Carbon Budget is not just a single number. Scientists calculate budgets for a range of likelihoods and limits. The limits are different temperatures, like 1.5°C, 1.7°C and 2.0°C. The likelihood goes from 0% to 100%. The likelihood is like an uncertainty range for the scientist's calculation. For example, remaining carbon budget for 50% likelihood for the 1.5°C limit is 130Gt. The scientist isn't sure that after 130Gt the warming will be exactly 1.5°C, he/she gives it a 50/50 chance that the temperature will be above or below. If you want a 67% chance to stay below with only 33% of going over the temperature limit you have to stick to the 67% likelihood budget for 1.5°C which is 80Gt.</p>
+                                    <p><strong>Non-CO₂ Warming:</strong>The remaining carbon budget is specific to CO₂. In calculating these budgets scientists assumes a certain amount of warming from other sources like methane, nitrous oxide, and aerosol pollution. If these sources warm more than expected, our CO₂ budget shrinks; if they warm less or cool, we have more room. The carbon budget is essentially a moving target that shifts as these other factors change. Climate change tracker follows a yearly updated analysis and scientist keep very much on top of this topic.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p>From the CO₂ emissions chart you can see that global CO₂ emissions are at roughly 40Gt per year. As it shows in the Remaining carbon budget widget that means at this rate the budget is gone in 2028. The actual warming from emissions has a delay, as mentioned much earlier the expected year to reach 1.5°C is 2030.</p>
+
+                        <h2>Emission pathways</h2>
+
+                        <p>To stay below <span class="temp-value amber">1.5</span><span class="temp-unit">°C</span>, we would need to go from 40Gt per year to 0Gt per year before reaching a total of 130Gt emissions, that means approximately <strong>17<cct#/></strong>% annual emissions reductions (6Gt), reaching net-zero CO₂ by <strong>2031<cct#/></strong>. This would require an immediate, global mobilization unlike anything attempted before—faster than wartime industrial transformations. With current emissions flat or rising in many regions, this isn't happening.</p>
+
+                        <p>But that doesn't mean the 1.5°C threshold is meaningless or that we should abandon it as a goal. It is possible to temporarily exceed 1.5°C (an "overshoot") and return to it later this century by removing CO₂ from the atmosphere.</p>
+
+                        <p>If you want more understanding of net-zero and carbon removal see the box.</p>
+
+                        <div class="expandable-block">
+                            <button class="expand-toggle">
+                                Understanding Net-Zero and Carbon Removal
+                                <span class="expand-icon">+</span>
+                            </button>
+                            <div class="expand-content">
+                                <div class="expand-content-inner">
+                                    <p>The term "net-zero" appears constantly in climate discussions, but it's worth understanding what it actually means and why it matters.</p>
+
+                                    <p><strong>Net-Zero CO₂:</strong> This is the critical threshold for stabilizing temperature. When we emit exactly as much CO₂ as we remove from the atmosphere (either through natural sinks or technological removal), the atmospheric CO₂ concentration stops rising, and temperature stops increasing. This is why net-zero CO₂ specifically—not just overall net-zero greenhouse gases—is the target for halting warming.</p>
+
+                                    <p><strong>Natural Carbon Sinks:</strong> Earth's land and ocean currently absorb about half of our CO₂ emissions. Forests, soils, and phytoplankton pull CO₂ from the air; oceans dissolve it into seawater. These natural processes are enormous—without them, atmospheric CO₂ would be roughly double what it is today. But these sinks are under stress. As oceans warm, they absorb less CO₂. As forests face heat stress and drought, they grow more slowly or die. At higher warming levels, the fraction of emissions that natural sinks can absorb may decline, making net-zero harder to achieve.</p>
+
+                                    <p><strong>Gross vs. Net Emissions:</strong> Gross emissions are what we put into the atmosphere (currently around 40 Gt CO₂/year from fossil fuels and land use). Net emissions are what remains after natural sinks absorb their share (currently around 20 Gt CO₂/year). Net-zero means bringing net emissions to zero—either by reducing gross emissions to the level that natural sinks can handle, or by actively removing CO₂ to compensate for continued gross emissions, or some combination.</p>
+
+                                    <p><strong>Human CO₂ Removal:</strong> Beyond natural sinks, we can enhance CO₂ removal through: reforestation and improved land management (using nature more effectively); direct air capture (machines that chemically extract CO₂ from air); enhanced weathering (spreading minerals that react with and sequester CO₂); ocean alkalinity enhancement (increasing the ocean's capacity to absorb CO₂). All of these are at different stages of development, with different costs, scales, and side effects. None are currently deployed at climate-relevant scales, though many are promising.</p>
+
+                                    <p><strong>Net-Zero Greenhouse Gases:</strong> This is a broader target that includes methane, nitrous oxide, and other greenhouse gases alongside CO₂. Because these gases have different atmospheric lifetimes and warming effects, "net-zero GHG" is more complex than net-zero CO₂. Typically, it involves deep reductions in all greenhouse gases with some residual emissions balanced by removals.</p>
+
+                                    <p>The key insight: we must reach net-zero CO₂ to stop temperatures from rising. The faster we get there, the lower the peak temperature. Every year of delay means more warming to stabilize at a higher level.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p>For <span class="temp-value red">1.7</span><span class="temp-unit">°C</span> without overshoot, we need approximately <strong>4<cct#/></strong>% annual emissions reduction, reaching net-zero by <strong>2049<cct#/></strong>.</p>
+
+                        <p>This is technically and economically achievable with technologies we have or are rapidly developing. However, this is still very ambitious when compared to our current situation.</p>
+
+                        <h2>Global and national efforts</h2>
+
+                        <p>In the CO₂ emissions chart you can see that global emissions are relatively flat in the last 12 years. They are definitely not dropping with 4% per year. That would have to happen very quickly from now to keep even the 1.7°C limit (well below 2°C) manageable.</p>
+
+                        <p>Let's dive into national emissions to determine what needs to happen.</p>
+                    </div>
+                </div>
+                <div class="col-right">
+                    <img src="rcb.png" style="width: 100%; border-radius: 8px;" alt="rcb">
+                </div>
+                <!-- <div class="col-right">
+                    <div class="chart-item chart-placeholder" id="chart3">
+                        <div>
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">📉</div>
+                            <div style="font-weight: 600; color: #374151;">Emissions Pathways Chart</div>
+                            <div class="chart-label"><cct embed chart/></div>
+                            <div class="chart-label">Different reduction scenarios and outcomes</div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+
+            <!-- Row 5: High-income nations + high.png -->
+            <div class="row">
+                <div class="col-left">
+                    <p><strong>High-income nations</strong> (North America, Europe, Australia, Japan, South Korea): These nations are responsible for roughly 60% of historical CO₂ emissions while representing only about 16% of global population. Most are already seeing emissions decline at 1-3% annually due to renewable energy growth and industrial changes. They have the technological capacity, financial resources, and infrastructure to move faster. We at Climate Change Tracker believe they should either:
+                    <ul>
+                        <li>Accelerate domestic reductions to 6-8% annually, to provide developing nations time to reduce emissions, or</li>
+                        <li>maintain 4% domestic reductions while funding developing nations to reduce emissions and develop at the same time</li>
+                    </ul></p>
+                </div>
+                <div class="col-right">
+                    <img src="high.png" style="width: 100%; border-radius: 8px;" alt="High-income nations emissions">
+                </div>
+            </div>
+
+            <!-- Row 6: Middle-income nations + middle.png -->
+            <div class="row">
+                <div class="col-left">
+                    <p><strong>Middle-income emerging economies</strong> (China, much of Southeast Asia, Latin America, Eastern Europe): These nations have developed rapidly over recent decades, with emissions growth accounting for most of the global increase since 2000. They face the challenge of providing prosperity to large populations while transitioning their energy systems—doing in 20 years what developed nations did over a century. They need to peak emissions soon and work toward 4% reductions as fast as possible.</p>
+                </div>
+                <div class="col-right">
+                    <img src="middle.png" style="width: 100%; border-radius: 8px;" alt="Middle-income nations emissions">
+                </div>
+            </div>
+
+            <!-- Row 7: Lower-income nations + low.png -->
+            <div class="row">
+                <div class="col-left">
+                    <p><strong>Lower-income nations</strong> (much of Africa, South Asia, small island states): These countries contributed least to historical emissions. They're still building basic infrastructure and lifting populations from poverty—development that historically has been energy-intensive. They either need to be given time before reducing emissions or given the funds and support to develop and reduce at the same time.</p>
+
+                    <p>On top of the costs to reduce emissions there are also the costs to adapt to the impacts of climate change. As is shown above in the temperature impact explorer, these cost rise quickly at higher temperatures. It is the mostly the lower-income nations that bare the highest consequences and costs. These should shared fairly too.</p>
+                </div>
+                <div class="col-right">
+                    <img src="low.png" style="width: 100%; border-radius: 8px;" alt="Low-income nations emissions">
+                </div>
+            </div>
+
+            <!-- Row 8: Conclusion + Chart4 -->
+            <div class="row">
+                <div class="col-left">
+                    <!-- Conclusion Section -->
+                    <div class="section section-conclusion">
+                        <p>Check out your country's emissions and push for action.</p>
+
+                        <footer>
+                            <p>Thank you for engaging with this data. These numbers tell a story that's still being written—by all of us, through our collective choices.</p>
+                            <p>For real-time data, detailed analysis, and interactive tools to explore climate science further, visit the <a href="#" style="color: #E85D1D; font-weight: 600;">climatechangetracker.org main dashboard</a>.</p>
+                        </footer>
+
+                    </div>
+                </div>
+                <div class="col-right">
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+        // Expandable blocks functionality
+        function attachExpandListeners() {
+            const expandableBlocks = document.querySelectorAll('.expandable-block');
+
+            expandableBlocks.forEach(block => {
+                const toggle = block.querySelector('.expand-toggle');
+                if (toggle) {
+                    toggle.addEventListener('click', () => {
+                        block.classList.toggle('expanded');
+                    });
+                }
+            });
+        }
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            attachExpandListeners();
+        });
+    </script>
+</body>
+</html>
